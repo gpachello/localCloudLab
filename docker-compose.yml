@@ -30,8 +30,9 @@ services:
       - "./.azurite:/data"
 
   app:
-    build: ./src
+    image: python:3.11-slim
     container_name: cloud-app
+    working_dir: /app
     env_file:
       - .env.dev
     depends_on:
