@@ -1,11 +1,9 @@
-from aws_utils import create_bucket, list_buckets
-from azure_utils import create_container, list_containers
+from cloudUtils import create_bucket, list_buckets
 
-if __name__ == "__main__":
-    print("=== AWS (LocalStack) ===")
-    create_bucket("test-bucket")
-    list_buckets()
+bucket = "demo-bucket"
 
-    print("\n=== Azure (Azurite) ===")
-    create_container("test-container")
-    list_containers()
+print(f"Creando bucket: {bucket}")
+create_bucket(bucket)
+
+print("Buckets existentes:")
+print(list_buckets())
