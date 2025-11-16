@@ -31,5 +31,9 @@ Ideal para quienes desean **aprender, practicar o automatizar entornos cloud** c
    ```bash
    docker compose ps
 
-Deberías ver los servicios localstack, azurite y app ejecutándose.
- 
+Deberías ver los servicios localstack, azurite y app ejecutándose:
+   ```bash
+   NAME         IMAGE                                     COMMAND                  SERVICE      CREATED          STATUS                    PORTS
+   azurite      mcr.microsoft.com/azure-storage/azurite   "docker-entrypoint.s…"   azurite      44 seconds ago   Up 39 seconds             0.0.0.0:10000-10002->10000-10002/tcp
+   cloud-app    localcloudlab-app                         "/usr/local/bin/entr…"   app          41 seconds ago   Up 36 seconds             0.0.0.0:2200->22/tcp
+   localstack   localstack/localstack:latest              "docker-entrypoint.sh"   localstack   44 seconds ago   Up 38 seconds (healthy)   127.0.0.1:4510-4559->4510-4559/tcp, 127.0.0.1:4566->4566/tcp, 5678/tcp
