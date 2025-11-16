@@ -3,19 +3,18 @@ services:
     container_name: "${LOCALSTACK_DOCKER_NAME:-localstack}"
     image: localstack/localstack:latest
     ports:
-      - "127.0.0.1:4566:4566"            # LocalStack Gateway
-      - "127.0.0.1:4510-4559:4510-4559"  # external services port range
+      - "127.0.0.1:4566:4566"
+      - "127.0.0.1:4510-4559:4510-4559"
     environment:
-      # LocalStack configuration: https://docs.localstack.cloud/references/configuration/
       - DEBUG=${DEBUG:-0}
       - SERVICES=${SERVICES:-s3,lambda,dynamodb,cloudwatch,iam,dynamodb,sqs}
       - AWS_DEFAULT_REGION=${AWS_DEFAULT_REGION:-us-east-1}
       - DOCKER_HOST=unix:///var/run/docker.sock
     volumes:
-      - /etc/localtime:/etc/localtime:ro      # Sincroniza hora local
-      - /etc/timezone:/etc/timezone:ro        # Sincroniza zona horaria
-      - ./scripts:/scripts                    # Scripts personalizados
-      - ./.localstack:/var/lib/localstack     # Persistencia de datos
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/timezone:/etc/timezone:ro
+      - ./scripts:/scripts
+      - ./.localstack:/var/lib/localstack
       - /var/run/docker.sock:/var/run/docker.sock
 
   azurite:
@@ -23,21 +22,25 @@ services:
     container_name: azurite
     command: "azurite --blobHost 0.0.0.0 --queueHost 0.0.0.0 --tableHost 0.0.0.0"
     ports:
-      - "10000:10000"  # Blob
-      - "10001:10001"  # Queue
-      - "10002:10002"  # Table
+      - "10000:10000"
+      - "10001:10001"
+      - "10002:10002"
     volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/timezone:/etc/timezone:ro
       - "./.azurite:/data"
 
   app:
-    image: python:3.11-slim
+    build: ./src
     container_name: cloud-app
-    working_dir: /app
     env_file:
       - .env.dev
     depends_on:
       - localstack
       - azurite
+    ports:
+      - "2200:22"
     volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/timezone:/etc/timezone:ro
       - ./src:/app
-    command: ["python", "app.py"]
