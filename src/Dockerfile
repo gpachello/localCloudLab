@@ -10,6 +10,10 @@ RUN useradd -m -d /home/test -s /bin/bash -u 1000 test && \
     echo 'test:test' | chpasswd && \
     adduser test sudo
 
+# Forzar que el usuario que entra por SSH vaya directo a /app
+RUN echo 'cd /app' >> /home/test/.bashrc && \
+    chown test:test /home/test/.bashrc
+
 # Asegurar que sshd escuche en 0.0.0.0
 RUN mkdir -p /var/run/sshd && \
     echo "ListenAddress 0.0.0.0" >> /etc/ssh/sshd_config && \
