@@ -14,6 +14,7 @@ RUN useradd -m -d /home/test -s /bin/bash -u 1000 test && \
 RUN mkdir -p /var/run/sshd && \
     echo "ListenAddress 0.0.0.0" >> /etc/ssh/sshd_config && \
     echo "PasswordAuthentication yes" >> /etc/ssh/sshd_config
+    echo "Banner /app/banner" >> /etc/ssh/sshd_config
 
 EXPOSE 22
 
